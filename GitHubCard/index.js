@@ -3,7 +3,16 @@
     (replacing the placeholder with your Github name):
     https://api.github.com/users/<your name>
 */
-
+axios
+  .get("https://api.github.com/users/delled1")
+  .then((response) => {
+    console.log(response.data);
+    const ericData = response.data;
+    userCard.appendChild(userCardMaker(ericData));
+  })
+  .catch((error) => {
+    console.log(error);
+  });
 /*
   STEP 2: Inspect and study the data coming back, this is YOUR
     github info! You will need to understand the structure of this
@@ -49,6 +58,55 @@ const followersArray = [];
       </div>
     </div>
 */
+
+const userCard = document.querySelector(".cards");
+
+function userCardMaker(data) {
+  //Institaition of the elements
+
+  const cardDiv = document.createElement("div");
+  const img = document.createElement("img");
+  const cardInfoDiv = document.createElement("div");
+  const name = document.createElement("h3");
+  const username = document.createElement("p");
+  const location = document.createElement("p");
+  const profile = document.createElement("p");
+  const link = document.createElement("a");
+  const followers = document.createElement("p");
+  const following = document.createElement("p");
+  const bioP = document.createElement("p");
+
+  // Class list
+
+  cardDiv.classList.add("card");
+  cardInfoDiv.classList.add("card-info");
+  name.classList.add("name");
+  username.classList.add("username");
+
+  // Nesting
+
+  cardDiv.appendChild(img);
+  cardDiv.appendChild(cardInfoDiv);
+  cardInfoDiv.appendChild(name);
+  cardInfoDiv.appendChild(username);
+  cardInfoDiv.appendChild(location);
+  cardInfoDiv.appendChild(profile);
+  profile.appendChild(link);
+  cardInfoDiv.appendChild(followers);
+  cardInfoDiv.appendChild(following);
+  cardInfoDiv.appendChild(bioP);
+
+  // Card Content from Data
+  img.src = data.avatar_url;
+  name.textContent = data.name;
+  username.textContent = data.login;
+  location.textContent = data.location;
+  link.textContent = data.html_url;
+
+  //Return
+
+  return cardDiv;
+}
 
 /*
   List of LS Instructors Github username's:
