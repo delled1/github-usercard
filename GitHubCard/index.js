@@ -3,7 +3,16 @@
     (replacing the placeholder with your Github name):
     https://api.github.com/users/<your name>
 */
-
+axios
+  .get("https://api.github.com/users/delled1")
+  .then((response) => {
+    console.log(response.data);
+    const ericData = response.data;
+    userCard.appendChild(userCardMaker(ericData));
+  })
+  .catch((error) => {
+    console.log(error);
+  });
 /*
   STEP 2: Inspect and study the data coming back, this is YOUR
     github info! You will need to understand the structure of this
@@ -28,7 +37,27 @@
     user, and adding that card to the DOM.
 */
 
-const followersArray = [];
+const friendsArray = [
+  "tetondan",
+  "dustinmyers",
+  "justsml",
+  "luishrd",
+  "bigknell",
+];
+
+const friendsGitArray = friendsArray.forEach((friend) => {
+  axios
+    .get(`https://api.github.com/users/${friend}`)
+    .then((response) => {
+      console.log(response);
+      const friendsData = response.data;
+      userCard.appendChild(userCardMaker(friendsData));
+    })
+    .catch((error) => {
+      console.log(error);
+    });
+});
+console.log(friendsGitArray);
 
 /*
   STEP 3: Create a function that accepts a single object as its only argument.
@@ -49,6 +78,59 @@ const followersArray = [];
       </div>
     </div>
 */
+const userCard = document.querySelector(".cards");
+
+function userCardMaker(data) {
+  //Institaition of the elements
+
+  const cardDiv = document.createElement("div");
+  const img = document.createElement("img");
+  const cardInfoDiv = document.createElement("div");
+  const name = document.createElement("h3");
+  const username = document.createElement("p");
+  const location = document.createElement("p");
+  const profile = document.createElement("p");
+  const link = document.createElement("a");
+  const followers = document.createElement("p");
+  const following = document.createElement("p");
+  const bio = document.createElement("p");
+
+  // Class list
+
+  cardDiv.classList.add("card");
+  cardInfoDiv.classList.add("card-info");
+  name.classList.add("name");
+  username.classList.add("username");
+
+  //Card Content from Data
+  img.src = data.avatar_url;
+  name.textContent = data.name;
+  username.textContent = data.login;
+  location.textContent = "Location: " + data.location;
+  profile.textContent = "Profile: ";
+  link.href = data.html_url;
+  link.textContent = link.href;
+  followers.textContent = `Followers: ${data.followers}`;
+  following.textContent = `Following: ${data.following}`;
+  bio.textContent = `Bio: ${data.bio}`;
+
+  // Nesting
+
+  cardDiv.appendChild(img);
+  cardDiv.appendChild(cardInfoDiv);
+  cardInfoDiv.appendChild(name);
+  cardInfoDiv.appendChild(username);
+  cardInfoDiv.appendChild(location);
+  cardInfoDiv.appendChild(profile);
+  profile.appendChild(link);
+  cardInfoDiv.appendChild(followers);
+  cardInfoDiv.appendChild(following);
+  cardInfoDiv.appendChild(bio);
+
+  //Return
+
+  return cardDiv;
+}
 
 /*
   List of LS Instructors Github username's:
