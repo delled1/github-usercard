@@ -78,7 +78,6 @@ console.log(friendsGitArray);
       </div>
     </div>
 */
-
 const userCard = document.querySelector(".cards");
 
 function userCardMaker(data) {
@@ -94,7 +93,7 @@ function userCardMaker(data) {
   const link = document.createElement("a");
   const followers = document.createElement("p");
   const following = document.createElement("p");
-  const bioP = document.createElement("p");
+  const bio = document.createElement("p");
 
   // Class list
 
@@ -102,6 +101,18 @@ function userCardMaker(data) {
   cardInfoDiv.classList.add("card-info");
   name.classList.add("name");
   username.classList.add("username");
+
+  //Card Content from Data
+  img.src = data.avatar_url;
+  name.textContent = data.name;
+  username.textContent = data.login;
+  location.textContent = "Location: " + data.location;
+  profile.textContent = "Profile: ";
+  link.href = data.html_url;
+  link.textContent = link.href;
+  followers.textContent = `Followers: ${data.followers}`;
+  following.textContent = `Following: ${data.following}`;
+  bio.textContent = `Bio: ${data.bio}`;
 
   // Nesting
 
@@ -114,14 +125,7 @@ function userCardMaker(data) {
   profile.appendChild(link);
   cardInfoDiv.appendChild(followers);
   cardInfoDiv.appendChild(following);
-  cardInfoDiv.appendChild(bioP);
-
-  // Card Content from Data
-  img.src = data.avatar_url;
-  name.textContent = data.name;
-  username.textContent = data.login;
-  location.textContent = data.location;
-  link.textContent = data.html_url;
+  cardInfoDiv.appendChild(bio);
 
   //Return
 
